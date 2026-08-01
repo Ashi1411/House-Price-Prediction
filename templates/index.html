@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= Hero Section ================= -->
+
+<!-- ================= Hero Section ================= -->
+
+<section class="hero">
+
+    <div class="hero-overlay">
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <h1 class="hero-title">
+
+                    Predict House Prices
+
+                    <span>using Machine Learning</span>
+
+                </h1>
+
+                <p class="hero-text">
+
+                    Estimate the market value of a house instantly using our
+                    XGBoost Regression model trained on the Ames Housing Dataset.
+
+                </p>
+
+                <a href="/predict"
+                   class="btn btn-primary btn-lg hero-btn">
+
+                    Predict Price →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= Features ================= -->
+
+<section class="features">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Why Choose This Model?
+        </h2>
+
+        <div class="row">
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="icon">📈</div>
+
+                    <h4>94.97% R²</h4>
+
+                    <p>High prediction accuracy using XGBoost.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="icon">🏠</div>
+
+                    <h4>2900+ Houses</h4>
+
+                    <p>Trained on the Ames Housing Dataset.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="icon">⚡</div>
+
+                    <h4>Instant Prediction</h4>
+
+                    <p>Predict prices in just a few milliseconds.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="icon">🤖</div>
+
+                    <h4>Machine Learning</h4>
+
+                    <p>Powered by an optimized XGBoost Regression model.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

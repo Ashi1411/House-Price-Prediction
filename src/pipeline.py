@@ -11,14 +11,21 @@ import joblib
 
 import pandas as pd
 
-from src.preprocessing import preprocess_data
+from src.preprocessing import (
+    preprocess_data,
+    load_data
+)
 from src.feature_engineering import engineer_features
 from src.encoding import encode_features
 
 from src.config import (
     MODEL_PATH,
-    FEATURE_NAMES_PATH
+    FEATURE_NAMES_PATH,
+    RAW_DEFAULTS_PATH,
+    TARGET_COLUMN
 )
+
+from pandas.api.types import is_numeric_dtype
 
 
 def load_model():
@@ -37,7 +44,30 @@ def load_model():
 
 
 
-def prepare_input(df):
+
+def load_feature_names():
+    """
+    Load the feature names used during training.
+
+    Returns
+    -------
+    list
+        List of feature names.
+    """
+
+    try:
+        return joblib.load(FEATURE_NAMES_PATH)
+
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"Feature names not found at {FEATURE_NAMES_PATH}. "
+            "Train the model before making predictions."
+        )
+
+
+
+
+def prepare_input(df, feature_names):
     """
     Apply all preprocessing steps
     before prediction.
@@ -60,8 +90,6 @@ def prepare_input(df):
 
     df = encode_features(df)
     
-    feature_names = load_feature_names()
-
     df = df.reindex(
         columns=feature_names,
         fill_value=0
@@ -71,22 +99,29 @@ def prepare_input(df):
 
 
 
-def predict_price(df):
+def predict_price(user_input, model, feature_names):
     """
     Predict house prices.
 
     Parameters
     ----------
-    df : pd.DataFrame
+    user_input : dict
+
+    model : XGBRegressor
+
+    feature_names : list
 
     Returns
     -------
     numpy.ndarray
     """
 
-    model = load_model()
+    df = build_input_dataframe(user_input)
 
-    df = prepare_input(df)
+    df = prepare_input(
+        df,
+        feature_names
+    )
 
     predictions = model.predict(df)
 
@@ -94,17 +129,42 @@ def predict_price(df):
 
 
 
-def load_feature_names():
+def load_raw_defaults():
     """
-    Load the feature names used during training.
+    Load the raw default feature values.
 
     Returns
     -------
-    list
-        List of feature names.
+    dict
     """
 
-    return joblib.load(FEATURE_NAMES_PATH)
+    return joblib.load(RAW_DEFAULTS_PATH)
 
 
 
+def build_input_dataframe(user_input):
+
+    defaults = load_raw_defaults()
+
+    complete_data = defaults.copy()
+
+    for key, value in user_input.items():
+
+        if value != "":
+
+            complete_data[key] = value
+
+    df = pd.DataFrame([complete_data])
+
+    sample = load_data().drop(columns=[TARGET_COLUMN])
+
+    for column in sample.columns:
+
+        if is_numeric_dtype(sample[column]):
+
+            df[column] = pd.to_numeric(
+                df[column],
+                errors="coerce"
+            )
+
+    return df

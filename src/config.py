@@ -48,6 +48,9 @@ MODEL_PATH = MODEL_DIR / MODEL_FILENAME
 FEATURE_NAMES_FILENAME = "feature_names.pkl"
 FEATURE_NAMES_PATH = MODEL_DIR / FEATURE_NAMES_FILENAME 
 
+RAW_DEFAULTS_FILENAME = "raw_defaults.pkl"
+RAW_DEFAULTS_PATH = MODEL_DIR / RAW_DEFAULTS_FILENAME
+
 
 # ==========================================================
 # Missing Value Handling

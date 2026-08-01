@@ -1,0 +1,437 @@
+/* ===========================================
+   Google Font
+=========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+
+/* ===========================================
+   Global Styles
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
+    color:#222;
+    overflow-x:hidden;
+}
+
+
+/* ===========================================
+   Navbar
+=========================================== */
+
+.navbar{
+    padding:18px 0;
+    background:#212529 !important;
+}
+
+.navbar-brand{
+    font-size:1.8rem;
+    font-weight:700;
+}
+
+
+/* ===========================================
+   Hero Section
+=========================================== */
+
+/* ==========================================
+   HERO SECTION
+========================================== */
+
+.hero{
+
+    background:
+    linear-gradient(
+        rgba(8,15,30,.55),
+        rgba(8,15,30,.55)
+    ),
+    url("../images/hero-house.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    min-height:90vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.hero-overlay{
+
+    width:100%;
+
+    padding:120px 0;
+
+}
+
+.hero-content{
+
+    max-width:850px;
+
+    margin:auto;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.hero-title{
+
+    font-size:4.2rem;
+
+    font-weight:800;
+
+    line-height:1.15;
+
+    margin-bottom:25px;
+
+}
+
+.hero-title span{
+
+    display:block;
+
+    color:#4ea3ff;
+
+}
+
+.hero-text{
+
+    font-size:1.3rem;
+
+    line-height:1.8;
+
+    margin:35px auto;
+
+    max-width:720px;
+
+    color:rgba(255,255,255,.95);
+
+}
+
+.hero-btn{
+
+    padding:16px 45px;
+
+    border-radius:50px;
+
+    font-size:1.15rem;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.hero-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 30px rgba(13,110,253,.35);
+
+}
+
+
+/* ===========================================
+   Features
+=========================================== */
+
+.features{
+
+    padding:100px 0;
+
+    background:#f7f9fc;
+
+}
+
+.feature-card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:40px 30px;
+
+    text-align:center;
+
+    height:100%;
+
+    transition:.3s;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.12);
+
+}
+
+.feature-card .icon{
+
+    font-size:3rem;
+
+    margin-bottom:25px;
+
+}
+
+.feature-card h4{
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+}
+
+.feature-card p{
+
+    color:#666;
+
+}
+
+
+/* ===========================================
+   Footer
+=========================================== */
+
+footer{
+
+    background:#212529;
+
+    color:white;
+
+    text-align:center;
+
+    padding:25px;
+}
+
+
+/* ===========================================
+   Prediction Form
+=========================================== */
+
+.form-card{
+    background:white;
+    padding:50px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.form-section h3{
+    margin-bottom:30px;
+    padding-bottom:10px;
+    border-bottom:2px solid #e9ecef;
+}
+
+.predict-btn{
+    padding:15px 45px;
+    border-radius:40px;
+    font-size:20px;
+    font-weight:600;
+}
+
+.predict-page{
+    padding-top:70px;
+    padding-bottom:80px;
+}
+
+
+
+/* ==========================================
+   Prediction Card
+========================================== */
+
+.prediction-card{
+
+    max-width:700px;
+
+    margin:60px auto;
+
+    padding:45px;
+
+    background:white;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+    animation:fadeIn .6s ease;
+}
+
+.prediction-icon{
+
+    font-size:55px;
+
+    margin-bottom:15px;
+}
+
+.prediction-title{
+
+    font-weight:700;
+
+    margin-bottom:20px;
+}
+
+.prediction-price{
+
+    font-size:3rem;
+
+    font-weight:800;
+
+    color:#198754;
+
+    margin-bottom:20px;
+}
+
+.prediction-subtitle{
+
+    color:#666;
+
+    margin-bottom:0;
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+
+}
+
+
+.prediction-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    margin-top:50px;
+
+    animation:fadeUp .5s;
+}
+
+.prediction-icon{
+
+    font-size:55px;
+}
+
+.prediction-price{
+
+    font-size:3rem;
+
+    color:#198754;
+
+    font-weight:700;
+
+    margin:20px 0;
+}
+
+.prediction-subtitle{
+
+    color:#666;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.predict-page{
+
+    background:
+    linear-gradient(
+    rgba(255,255,255,.95),
+    rgba(255,255,255,.95)),
+    url("../images/house-bg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+}
+
+
+
+
+/* ===========================================
+   Responsive
+=========================================== */
+
+@media (max-width:768px){
+
+    .hero{
+
+        min-height:70vh;
+
+    }
+
+    .hero-title{
+
+        font-size:2.6rem;
+
+    }
+
+    .hero-text{
+
+        font-size:1.05rem;
+
+    }
+
+    .hero-btn{
+
+        width:100%;
+
+    }
+
+}

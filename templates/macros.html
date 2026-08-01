@@ -1,0 +1,118 @@
+{% macro render_select(
+    label,
+    name,
+    options,
+    required=False
+) %}
+
+<div class="col-md-6 mb-4">
+
+    <label class="form-label">
+
+    {{ label }}
+
+    {% if required %}
+
+    <span class="text-danger">*</span>
+
+    {% endif %}
+
+    </label>
+
+
+    <select
+        class="form-select"
+        name="{{ name }}"
+
+        {% if required %}
+        required
+        {% endif %}
+    >
+
+        <option
+            value=""
+            disabled
+
+            {% if not form_data.get(name) %}
+            selected
+            {% endif %}
+        >
+
+            Select {{ label }}
+
+        </option>
+
+        {% for item in options[name] %}
+
+        <option
+            value="{{ item }}"
+
+            {% if form_data.get(name)==item %}
+            selected
+            {% endif %}
+        >
+
+            {{ item }}
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+{% endmacro %}
+
+
+
+{% macro render_number(
+    label,
+    name,
+    min=None,
+    max=None,
+    step="any",
+    required=False,
+    placeholder=""
+) %}
+
+<div class="col-md-6 mb-4">
+
+    <label class="form-label">
+
+    {{ label }}
+
+    {% if required %}
+
+    <span class="text-danger">*</span>
+
+    {% endif %}
+
+    </label>
+    
+
+    <input
+        type="number"
+        class="form-control"
+        name="{{ name }}"
+        value="{{ form_data.get(name, '') }}"
+        placeholder="{{ placeholder }}"
+
+        {% if min is not none %}
+        min="{{ min }}"
+        {% endif %}
+
+        {% if max is not none %}
+        max="{{ max }}"
+        {% endif %}
+
+        step="{{ step }}"
+
+        {% if required %}
+        required
+        {% endif %}
+    >
+
+</div>
+
+{% endmacro %}

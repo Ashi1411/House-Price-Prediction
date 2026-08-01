@@ -1,0 +1,625 @@
+{% extends "base.html" %}
+
+{% import "macros.html" as forms with context %}
+
+{% block title %}
+Predict House Price
+{% endblock %}
+
+{% block content %}
+
+<section class="predict-page">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h1 class="display-5 fw-bold">
+                🏡 House Price Prediction
+            </h1>
+
+            <p class="lead text-muted">
+
+            Estimate the market value of your property
+            using Machine Learning.
+
+            </p>
+
+            <p class="predict-subtitle">
+                Fill in the house details below to estimate its market value.
+            </p>
+
+        </div>
+
+        <div class="form-card">
+
+            <form id="predictionForm" action="/predict" method="POST">
+
+                 <!-- ====================================== -->
+                <!-- General Information -->
+                <!-- ====================================== -->
+
+                <div class="form-section">
+
+                    <h3>General Information</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_number(
+                            "Overall Quality",
+                            "Overall Qual",
+                            min=1,
+                            max=10,
+                            step=1,
+                            required=True,
+                            placeholder="1 - 10"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Overall Condition",
+                            "Overall Cond",
+                            min=1,
+                            max=10,
+                            step=1,
+                            required=True,
+                            placeholder="1 - 10"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Year Built",
+                            "Year Built",
+                            min=1800,
+                            max=2025,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 2005"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Year Remodeled",
+                            "Year Remod/Add",
+                            min=1800,
+                            max=2025,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 2010"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Location Information -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>Location Information</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Neighborhood",
+                            "Neighborhood",
+                            options,
+                            required=True
+                        ) }}
+
+                        {{ forms.render_select(
+                            "MS Zoning",
+                            "MS Zoning",
+                            options,
+                            required=True
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Street",
+                            "Street",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Lot Shape",
+                            "Lot Shape",
+                            options
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Lot Area (sq ft)",
+                            "Lot Area",
+                            min=500,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 8500"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Lot Frontage",
+                            "Lot Frontage",
+                            min=0,
+                            step=1,
+                            placeholder="e.g. 65"
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Utilities",
+                            "Utilities",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Land Slope",
+                            "Land Slope",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Lot Configuration",
+                            "Lot Config",
+                            options
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- House Details -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🏠 House Details</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "House Style",
+                            "House Style",
+                            options,
+                            required=True
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Building Type",
+                            "Bldg Type",
+                            options,
+                            required=True
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Roof & Exterior -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🏠 Roof & Exterior</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Roof Style",
+                            "Roof Style",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Roof Material",
+                            "Roof Matl",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Exterior Finish 1",
+                            "Exterior 1st",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Exterior Finish 2",
+                            "Exterior 2nd",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Exterior Quality",
+                            "Exter Qual",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Exterior Condition",
+                            "Exter Cond",
+                            options
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Foundation & Utilities -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🧱 Foundation & Utilities</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Foundation",
+                            "Foundation",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Heating",
+                            "Heating",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Heating Quality",
+                            "Heating QC",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Central Air",
+                            "Central Air",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Electrical System",
+                            "Electrical",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Functionality",
+                            "Functional",
+                            options
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Basement Details -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🏠 Basement Details</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Basement Quality",
+                            "Bsmt Qual",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Basement Condition",
+                            "Bsmt Cond",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Basement Exposure",
+                            "Bsmt Exposure",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Finished Basement Type 1",
+                            "BsmtFin Type 1",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Finished Basement Type 2",
+                            "BsmtFin Type 2",
+                            options
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Total Basement Area (sq ft)",
+                            "Total Bsmt SF",
+                            min=0,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 850"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Garage Details -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🚗 Garage Details</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Garage Type",
+                            "Garage Type",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Garage Finish",
+                            "Garage Finish",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Garage Quality",
+                            "Garage Qual",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Garage Condition",
+                            "Garage Cond",
+                            options
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Garage Area (sq ft)",
+                            "Garage Area",
+                            min=0,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 500"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Garage Cars",
+                            "Garage Cars",
+                            min=0,
+                            max=6,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 2"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Interior Details -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🛁 Interior Details</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_number(
+                            "Living Area (sq ft)",
+                            "Gr Liv Area",
+                            min=200,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 1700"
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Kitchen Quality",
+                            "Kitchen Qual",
+                            options,
+                            required=True
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Full Bathrooms",
+                            "Full Bath",
+                            min=0,
+                            max=10,
+                            step=1,
+                            required=True,
+                            placeholder="e.g. 2"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Half Bathrooms",
+                            "Half Bath"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Basement Full Bathrooms",
+                            "Bsmt Full Bath"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Basement Half Bathrooms",
+                            "Bsmt Half Bath"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Outdoor Features -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>🌳 Outdoor Features</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_number(
+                            "Open Porch Area",
+                            "Open Porch SF"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Wood Deck Area",
+                            "Wood Deck SF"
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Pool Quality",
+                            "Pool QC",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Fence",
+                            "Fence",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Fireplace Quality",
+                            "Fireplace Qu",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Misc Feature",
+                            "Misc Feature",
+                            options
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <!-- ====================================== -->
+                <!-- Sale Information -->
+                <!-- ====================================== -->
+
+                <div class="form-section mt-5">
+
+                    <h3>💰 Sale Information</h3>
+
+                    <div class="row">
+
+                        {{ forms.render_select(
+                            "Sale Type",
+                            "Sale Type",
+                            options
+                        ) }}
+
+                        {{ forms.render_select(
+                            "Sale Condition",
+                            "Sale Condition",
+                            options
+                        ) }}
+
+                        {{ forms.render_number(
+                            "MS SubClass",
+                            "MS SubClass"
+                        ) }}
+
+                        {{ forms.render_number(
+                            "Year Sold",
+                            "Yr Sold"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                
+
+                <!-- Submit Button -->
+
+                <div class="text-center mt-5 mb-5">
+
+                    <button
+                        id="predictBtn"
+                        type="submit"
+                        class="btn btn-primary btn-lg px-5 w-100">
+
+                        <span id="buttonText">
+
+                            Predict House Price 🚀
+
+                        </span>
+
+                        <span
+                            id="loadingSpinner"
+                            class="spinner-border spinner-border-sm ms-2 d-none"
+                            role="status"
+                            aria-hidden="true">
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            {% if prediction %}
+
+            <div class="prediction-card mt-5">
+
+                <div class="prediction-icon">
+                    🏡
+                </div>
+
+                <h4 class="text-success fw-bold">
+                    Prediction Complete
+                </h4>
+
+                <h2 class="mt-3">
+                    Estimated House Price
+                </h2>
+
+                <div class="prediction-price">
+                    ${{ prediction }}
+                </div>
+
+                <p class="prediction-subtitle">
+                    Generated using
+                    <strong>XGBoost Regression</strong>
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if error %}
+
+            <div class="alert alert-danger mt-4">
+
+                <h5>⚠ Unable to Generate Prediction</h5>
+
+                <p class="mb-0">
+                    {{ error }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

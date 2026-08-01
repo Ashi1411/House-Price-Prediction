@@ -11,6 +11,8 @@ This module performs:
 
 from xml.parsers.expat import model
 
+from pandas.api.types import is_numeric_dtype
+
 import joblib
 
 import pandas as pd
@@ -39,6 +41,7 @@ from src.config import (
     RANDOM_STATE,
     MODEL_PATH,
     FEATURE_NAMES_PATH,
+    RAW_DEFAULTS_PATH,
     XGBOOST_PARAMS
 )
 
@@ -61,13 +64,15 @@ def prepare_data():
 
     df = engineer_features(df)
 
+    raw_df = df.copy()
+
     df = encode_features(df)
 
     X = df.drop(columns=TARGET_COLUMN)
 
     y = df[TARGET_COLUMN]
 
-    return X, y
+    return X, y, raw_df
 
 
 
@@ -170,6 +175,41 @@ def save_feature_names(feature_names):
 
 
 
+def save_raw_defaults(df):
+    """
+    Save default values for every feature before encoding.
+
+    Numerical columns -> median
+    Categorical columns -> mode
+    """
+
+    defaults = {}
+
+    for column in df.columns:
+
+        if column == TARGET_COLUMN:
+            continue
+
+        if is_numeric_dtype(df[column]):
+            defaults[column] = df[column].median()
+        else:
+            defaults[column] = df[column].mode()[0]
+
+    RAW_DEFAULTS_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    joblib.dump(defaults, RAW_DEFAULTS_PATH)
+
+    print(
+        f"\nRaw default values saved to:\n"
+        f"{RAW_DEFAULTS_PATH}"
+    )
+        
+    
+    
+
 def save_model(model):
     """
     Save the trained model.
@@ -190,9 +230,11 @@ def main():
 
     print("Preparing data...")
 
-    X, y = prepare_data()
+    X, y, raw_df = prepare_data()
     
     save_feature_names(X.columns.tolist())
+    
+    save_raw_defaults(raw_df)
 
     X_train, X_test, y_train, y_test = split_data(X, y)
 
