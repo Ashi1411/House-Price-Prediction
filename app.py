@@ -20,6 +20,8 @@ from src.pipeline import (
 
 from src.form_options import get_form_options
 
+app = Flask(__name__)
+
 
 
 try:
